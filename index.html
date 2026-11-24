@@ -42,6 +42,14 @@
 
         <section id="gallery" class="gallery-section">
           <div class="gallery-inner">
+            <div class="gallery-toolbar">
+              <span id="gallery-count" class="gallery-count"></span>
+              <div class="gallery-actions">
+                <button type="button" id="select-toggle" class="gallery-action">Select</button>
+                <button type="button" id="download-selected" class="gallery-action" hidden>Download selected</button>
+                <button type="button" id="download-all" class="gallery-action">Download all</button>
+              </div>
+            </div>
             <div id="gallery-root" class="justified-gallery" aria-label="Photo gallery"></div>
           </div>
         </section>
@@ -67,6 +75,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <script src="gallery.js"></script>
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();

@@ -82,12 +82,97 @@
       openLightbox(currentIndex + delta);
     }
 
+    // Selection & download
+    const selected = new Set();
+    let selecting = false;
+    const selectToggle = document.getElementById("select-toggle");
+    const downloadSelected = document.getElementById("download-selected");
+    const downloadAll = document.getElementById("download-all");
+    const countEl = document.getElementById("gallery-count");
+
+    function updateToolbar() {
+      selectToggle.textContent = selecting ? "Cancel" : "Select";
+      downloadSelected.hidden = !selecting;
+      downloadSelected.disabled = selected.size === 0;
+      countEl.textContent = selecting
+        ? `${selected.size} selected`
+        : `${imagePaths.length} photos`;
+    }
+
+    function setSelecting(on) {
+      selecting = on;
+      selected.clear();
+      root.classList.toggle("is-selecting", on);
+      root.querySelectorAll("a.is-selected").forEach((a) => a.classList.remove("is-selected"));
+      updateToolbar();
+    }
+
+    function fileName(src) {
+      return decodeURIComponent(src.split("/").pop());
+    }
+
+    async function fetchBlob(src) {
+      const res = await fetch(src);
+      if (!res.ok) throw new Error(`Failed to fetch ${src}`);
+      return res.blob();
+    }
+
+    function saveBlob(blob, name) {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = name;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    async function download(paths, button) {
+      if (!paths.length) return;
+      const label = button.textContent;
+      button.disabled = true;
+      button.textContent = "Preparing…";
+      try {
+        if (paths.length === 1) {
+          saveBlob(await fetchBlob(paths[0]), fileName(paths[0]));
+        } else {
+          const zip = new JSZip();
+          await Promise.all(
+            paths.map(async (src) => zip.file(fileName(src), await fetchBlob(src)))
+          );
+          saveBlob(await zip.generateAsync({ type: "blob" }), "nana-berchie-gallery.zip");
+        }
+      } catch (err) {
+        console.error("Download failed", err);
+      } finally {
+        button.textContent = label;
+        button.disabled = false;
+        updateToolbar();
+      }
+    }
+
+    selectToggle.addEventListener("click", () => setSelecting(!selecting));
+    downloadAll.addEventListener("click", () => download(imagePaths, downloadAll));
+    downloadSelected.addEventListener("click", () => {
+      const paths = [...selected].sort((a, b) => a - b).map((i) => imagePaths[i]);
+      download(paths, downloadSelected);
+    });
+    updateToolbar();
+
     // Delegate clicks from thumbs
     root.addEventListener("click", (e) => {
       const anchor = e.target.closest("a");
       if (!anchor || !root.contains(anchor)) return;
       e.preventDefault();
       const index = parseInt(anchor.getAttribute("data-index") || "0", 10);
+      if (selecting) {
+        if (selected.has(index)) selected.delete(index);
+        else selected.add(index);
+        anchor.classList.toggle("is-selected", selected.has(index));
+        updateToolbar();
+        return;
+      }
       openLightbox(index);
     });
 
