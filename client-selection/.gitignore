@@ -1,0 +1,7 @@
+# Locally saved client selections (production uses Upstash Redis)
+data/
+
+# Full-resolution originals stay on your machine; only the compressed
+# copies in photos/ (made by prepare-photos.js) are committed and deployed.
+originals/*
+!originals/.gitkeep

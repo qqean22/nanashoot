@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Photo Selection | AXI STUDIO</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/client-selection/selection.css" />
+  </head>
+  <body>
+    <div class="site">
+      <header class="site-header">
+        <div class="site-header-inner">
+          <div class="brand">
+            <img src="/logo/logo2.png" alt="" class="brand-logo" />
+          </div>
+        </div>
+      </header>
+
+      <main class="site-main">
+        <section class="hero">
+          <div class="hero-content">
+            <h1 class="hero-title">PHOTO SELECTION</h1>
+            <p class="cs-intro">
+              Choose the photographs you would like edited. Tap a photo to view it larger, add notes for anything
+              specific, then submit your selection when you're happy.
+            </p>
+          </div>
+        </section>
+
+        <p id="cs-loading" class="cs-loading">Loading…</p>
+
+        <section id="cs-lock" class="cs-lock" hidden>
+          <form id="cs-login" class="cs-panel cs-login" novalidate>
+            <p class="cs-label">Private gallery</p>
+            <p class="cs-panel-copy">Enter the password you were given to view your photographs.</p>
+            <label for="cs-password" class="cs-visually-hidden">Password</label>
+            <input
+              type="password"
+              id="cs-password"
+              class="cs-input"
+              placeholder="Password"
+              autocomplete="current-password"
+              required
+            />
+            <button type="submit" class="cs-button">View photos</button>
+            <p id="cs-login-error" class="cs-error" role="alert"></p>
+          </form>
+        </section>
+
+        <section id="cs-app" class="gallery-section cs-app" hidden>
+          <div id="cs-submitted" class="cs-panel cs-notice" hidden>
+            <p class="cs-label">Selection submitted</p>
+            <p class="cs-panel-copy">
+              Thank you. Your selection was submitted <span id="cs-submitted-date"></span>. If you need to make a
+              change, please <a href="mailto:shotbyaxi@gmail.com">get in touch</a>.
+            </p>
+          </div>
+
+          <div class="gallery-toolbar">
+            <span id="cs-count" class="gallery-count"></span>
+            <div class="gallery-actions cs-filters" role="group" aria-label="Filter photos">
+              <button type="button" class="gallery-action" data-filter="all" aria-pressed="true">All</button>
+              <button type="button" class="gallery-action" data-filter="selected" aria-pressed="false">Selected</button>
+              <button type="button" class="gallery-action" data-filter="notes" aria-pressed="false">With notes</button>
+            </div>
+          </div>
+
+          <div id="cs-grid" class="cs-grid" aria-label="Photos"></div>
+          <p id="cs-empty" class="cs-empty" hidden></p>
+
+          <section class="cs-comments">
+            <label for="cs-comment" class="cs-label">General comments &amp; editing instructions</label>
+            <textarea
+              id="cs-comment"
+              class="cs-textarea"
+              rows="5"
+              maxlength="5000"
+              placeholder="Overall style, retouching preferences, colour or crop requests, deadlines…"
+            ></textarea>
+          </section>
+
+          <div class="cs-bar">
+            <div class="cs-bar-inner">
+              <div class="cs-bar-info">
+                <span id="cs-bar-count" class="cs-bar-count">0 selected</span>
+                <span id="cs-save-status" class="cs-save-status" aria-live="polite"></span>
+              </div>
+              <button type="button" id="cs-submit" class="cs-button" disabled>Submit selection</button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <div class="footer-main">
+            <span class="footer-brand">&copy; <span id="year"></span> AXI STUDIO LONDON</span>
+            <span class="footer-copy">Commercial photography services, events &amp; portrait photography.</span>
+          </div>
+          <div class="footer-social">
+            <a href="https://www.instagram.com/axistudioldn" target="_blank" rel="noreferrer" class="social-link">
+              Instagram
+            </a>
+            <a href="mailto:shotbyaxi@gmail.com" class="social-link">Email</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <div class="lightbox-overlay cs-lightbox" id="cs-lightbox" aria-hidden="true">
+      <div class="lightbox-backdrop" data-close></div>
+      <div class="lightbox-content" role="dialog" aria-modal="true" aria-label="Photo viewer">
+        <button type="button" class="lightbox-prev" aria-label="Previous photo">&#10094;</button>
+        <button type="button" class="lightbox-next" aria-label="Next photo">&#10095;</button>
+        <div class="lightbox-image-wrapper">
+          <img class="lightbox-image" alt="" />
+        </div>
+      </div>
+      <button type="button" class="cs-lightbox-close" aria-label="Close" data-close>&times;</button>
+      <div class="cs-lightbox-bar">
+        <span class="cs-lightbox-name"></span>
+        <button type="button" class="cs-lightbox-select gallery-action"></button>
+      </div>
+    </div>
+
+    <dialog id="cs-confirm" class="cs-dialog">
+      <form method="dialog" class="cs-panel">
+        <p class="cs-label">Submit selection</p>
+        <p class="cs-panel-copy" id="cs-confirm-text"></p>
+        <p class="cs-panel-copy cs-muted">Once submitted, your selection will be locked and sent for editing.</p>
+        <div class="cs-dialog-actions">
+          <button value="cancel" class="gallery-action">Keep editing</button>
+          <button value="confirm" class="cs-button">Submit</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+    <script src="/client-selection/selection.js"></script>
+  </body>
+</html>

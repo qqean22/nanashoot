@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Client Selections | AXI STUDIO</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/client-selection/selection.css" />
+  </head>
+  <body>
+    <div class="site">
+      <header class="site-header">
+        <div class="site-header-inner">
+          <div class="brand">
+            <img src="/logo/logo2.png" alt="" class="brand-logo" />
+          </div>
+        </div>
+      </header>
+
+      <main class="site-main">
+        <section class="hero">
+          <div class="hero-content">
+            <h1 class="hero-title">CLIENT SELECTIONS</h1>
+          </div>
+        </section>
+
+        <p id="cs-loading" class="cs-loading">Loading…</p>
+
+        <section id="cs-lock" class="cs-lock" hidden>
+          <form id="cs-login" class="cs-panel cs-login" novalidate>
+            <p class="cs-label">Photographer access</p>
+            <label for="cs-password" class="cs-visually-hidden">Admin password</label>
+            <input
+              type="password"
+              id="cs-password"
+              class="cs-input"
+              placeholder="Admin password"
+              autocomplete="current-password"
+              required
+            />
+            <button type="submit" class="cs-button">Sign in</button>
+            <p id="cs-login-error" class="cs-error" role="alert"></p>
+          </form>
+        </section>
+
+        <section id="cs-app" class="gallery-section" hidden>
+          <div class="gallery-toolbar">
+            <span class="gallery-count">Overview</span>
+            <div class="gallery-actions">
+              <button type="button" id="cs-refresh" class="gallery-action">Refresh</button>
+              <button type="button" id="cs-copy" class="gallery-action">Copy filenames</button>
+              <button type="button" id="cs-csv" class="gallery-action">Download CSV</button>
+              <button type="button" id="cs-json" class="gallery-action">Download JSON</button>
+              <button type="button" id="cs-reopen" class="gallery-action" hidden>Reopen for client</button>
+              <button type="button" id="cs-logout" class="gallery-action">Sign out</button>
+            </div>
+          </div>
+
+          <div class="cs-panel cs-admin-block">
+            <div class="cs-admin-summary">
+              <div class="cs-stat">
+                <span class="cs-label">Status</span>
+                <span id="cs-status" class="cs-status"></span>
+              </div>
+              <div class="cs-stat">
+                <span class="cs-label">Selected</span>
+                <span id="cs-selected-count" class="cs-stat-value"></span>
+              </div>
+              <div class="cs-stat">
+                <span class="cs-label">Submitted</span>
+                <span id="cs-submitted-at" class="cs-stat-value"></span>
+              </div>
+              <div class="cs-stat">
+                <span class="cs-label">Last updated</span>
+                <span id="cs-updated-at" class="cs-stat-value"></span>
+              </div>
+            </div>
+            <span class="cs-label">General comments</span>
+            <p id="cs-comment" class="cs-admin-comment"></p>
+            <p id="cs-message" class="cs-save-status" aria-live="polite"></p>
+          </div>
+
+          <div class="cs-admin-block">
+            <p class="cs-label">Selected photos</p>
+            <ul id="cs-selected-list" class="cs-admin-list"></ul>
+            <p id="cs-selected-empty" class="cs-empty" hidden>No photos selected yet.</p>
+          </div>
+
+          <div id="cs-other-notes-block" class="cs-admin-block" hidden>
+            <p class="cs-label">Notes on photos that are not selected</p>
+            <ul id="cs-other-notes" class="cs-admin-list"></ul>
+          </div>
+
+          <details id="cs-history-block" class="cs-admin-block cs-admin-history" hidden>
+            <summary class="cs-label">Submission history</summary>
+            <ol id="cs-history"></ol>
+          </details>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <div class="footer-main">
+            <span class="footer-brand">&copy; <span id="year"></span> AXI STUDIO LONDON</span>
+            <span class="footer-copy">Commercial photography services, events &amp; portrait photography.</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+    <script src="/client-selection/admin.js"></script>
+  </body>
+</html>
